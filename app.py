@@ -20,7 +20,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/<username>', methods = ['GET'])
+@app.route('/<username>/', methods = ['GET'])
 def get_user_landing(username):
     return jsonify(get_user_resources(username))
         
@@ -42,13 +42,14 @@ def redirect_user_resource(username, resource):
 
 @app.route('/register', methods = ['POST'])
 def register():
-    username = request.form['username']
-    password = request.form['password']
+    req = request.get_json()
+    username = req['username']
+    password = req['password']
 
     exists = db.query(
             KeyConditionExpression = Key('username').eq(username)
         )['Count'] > 0
-
+    
     if exists:
         return 'user exists', 409
     
@@ -63,8 +64,9 @@ def register():
 
 @app.route('/login', methods = ['POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
+    req = request.get_json()
+    username = req['username']
+    password = req['password']
 
     p = db.get_item(
             Key = {'username' : username}
