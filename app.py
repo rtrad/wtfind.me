@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect, g
+from flask import Flask, request, jsonify, redirect, render_template, g
 import requests
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
@@ -16,10 +16,9 @@ db = dynamodb.Table('wtfindme')
 app = Flask(__name__)
 
 
-@app.route('/', methods = ['GET'])
+@app.route('/')
 def index():
-    return '<html>test</html>'
-
+    return render_template('index.html')
 
 @app.route('/<username>', methods = ['GET'])
 def get_user_landing(username):
