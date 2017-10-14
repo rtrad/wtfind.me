@@ -28,7 +28,7 @@ def home():
     if 'logged_in' in session and session['logged_in']:
         profile = get_user_links(session['username'])
         resources = get_user_resources(session['username'])
-        return render_template('home.html', profile=profile, username=session['username'], twitter=resources['twitter']['requests'])
+        return render_template('home.html', profile=profile, username=session['username'], raw_data=simplejson.dumps(resources))
     else:
         return redirect('/')
     

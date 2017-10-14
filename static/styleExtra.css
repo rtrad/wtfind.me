@@ -65,4 +65,8 @@ z-index: 10040;
 overflow: auto;
 overflow-y: auto;
 }
-
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}

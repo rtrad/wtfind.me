@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="../static/styleExtra.css">
     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:600'>
     <link rel="stylesheet" href="../static/style.css">
-
-
-
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -19,21 +16,7 @@
             </button>
             <a class="navbar-brand">Where To Find Me</a>
             <div  id="navbarNavDropdown" class="navbar-collapse collapse">
-                <ul class="navbar-nav mr-auto">
-               <!--     <li class="nav-item">
-                        <a data-target="#myModalReports" data-toggle="modal" class="dropdown-item nav-link" id="reportsList" href="#myModalReports">Reports</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Create Report
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a data-target="#myModalSource" data-toggle="modal" class="dropdown-item nav-link" id="sourceReport" href="#myModalSource">Water Source Report</a>
-                            <a data-target="#myModalPurity" data-toggle="modal" class="dropdown-item nav-link" id="purityReport" href="#myModalPurity">Water Purity Report</a>
-                            <a data-target="#myModalHistory" data-toggle="modal" class="dropdown-item nav-link" id="historicalReport" href="#myModalHistory">Water Historical Report</a>
-                        </div>
-                    </li> -->
-                </ul>
+                <ul class="navbar-nav mr-auto"></ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" id="descrp">Logged in as: {{ username }}</a>
@@ -55,35 +38,65 @@
                     <button class="close" data-dismiss="modal">&times</button>
                 </div>
                 <div class="modal-body">
-                            <div class="form-group">
-                                <label for="lat3">Github</label>
-                                <input type="text" class="form-control" id="github" value="{{ profile['github'] }}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="lat3">Facebook</label>
-                                <input type="text" class="form-control" id="facebook" value="{{ profile['facebook'] }}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="lat3">Linkedin</label>
-                                <input type="text" class="form-control" id="linkedin" value="{{ profile['linkedin'] }}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="lat3">Twitter</label>
-                                <input type="text" class="form-control" id="twitter" value="{{ profile['twitter'] }}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="lat3">Personal site</label>
-                                <input type="text" class="form-control" id="personal_site" value="{{ profile['personal_site'] }}"/>
-                            </div>
-                            <input type="submit" id="editProfileSubmit" class="btn btn-default" data-dismiss="modal" value="Save Changes"/>
+                    <div class="form-group">
+                        <label for="lat3">Github</label>
+                        <input type="text" class="form-control" id="github" value="{{ profile['github'] }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lat3">Facebook</label>
+                        <input type="text" class="form-control" id="facebook" value="{{ profile['facebook'] }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lat3">Linkedin</label>
+                        <input type="text" class="form-control" id="linkedin" value="{{ profile['linkedin'] }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lat3">Twitter</label>
+                        <input type="text" class="form-control" id="twitter" value="{{ profile['twitter'] }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lat3">Personal site</label>
+                        <input type="text" class="form-control" id="personal_site" value="{{ profile['personal_site'] }}"/>
+                    </div>
+                    <input type="submit" id="editProfileSubmit" class="btn btn-default" data-dismiss="modal" value="Save Changes"/>
                 </div>
             </div>
         </div>
     </div>
+     <div class="container-fluid" id="main">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="row", id="draw">
+            <div id="barCH0" class="col-lg-4">
+{#                <!--The Bar Chart-->#}
+                <div><canvas id="ctx0" width="800" height="450"></canvas></div>
+            </div>
+            <div id="barCH1" class="col-lg-4">
+                <div><canvas id="ctx1" width="800" height="450"></canvas></div>
+            </div>
+            <div id="barCH2" class="col-lg-4">
+                <div><canvas id="ctx2" width="800" height="450"></canvas></div>
+            </div>
+            <div id="barCH3" class="col-lg-4">
+{#                <!--The Bar Chart-->#}
+                <div><canvas id="ctx3" width="800" height="450"></canvas></div>
+            </div>
+            <div id="barCH4" class="col-lg-4">
+               <div><canvas id="ctx4" width="800" height="450"></canvas></div>
+            </div>
+            <div id="barCH5" class="col-lg-4">
+                <div><canvas id="ctx5" width="800" height="450"></canvas></div>
+            </div>
+        </div>
+{#         <p>{{ raw_data|safe }}</p>#}
 <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.js"></script>
 <script>
 $('#editProfileSubmit').click(function () {
     var dict = {};
@@ -107,7 +120,73 @@ $('#editProfileSubmit').click(function () {
     xhr.setRequestHeader('Content-Type', 'application/json');
     console.log(dict);
     xhr.send(JSON.stringify(dict));
-})
+});
+
+var socName = {{ raw_data|safe }};
+var listSites = [];
+Object.keys(socName).forEach(function(key,index) {
+    listSites.push(key);
+});
+var dataset = [];
+listSites.forEach(function (d) {
+   dataset.push(socName[d]);
+});
+console.log(dataset);
+
+function drawG(name, socData, ind) {
+     // Get the data
+    var res = socData.requests.map(function (d) {
+        var de = new Date(0); // The 0 there is the key, which sets the date to the epoch
+        de.setUTCSeconds(d['time']);
+        return de;
+    });
+    var req = d3.nest()
+      .key(function(d) { return d.getDate(); })
+      .entries(res);
+    var labels1 = req.map(function (d) {
+        return parseInt(d.key);
+    });
+    var data = req.map(function (d) {
+        return  parseInt(d.values.length);
+    });
+    labels1.sort();
+    console.log("Labels for " + ind + labels1);
+    console.log("data for " + ind + data);
+
+    var elementID = 'ctx' + ind;
+
+    new Chart(document.getElementById(elementID), {
+      type: 'line',
+      data: {
+        labels: labels1,
+        datasets: [{
+            data: data,
+            lineTension: 0,
+            lineColor: 'red',
+            label: name,
+            borderColor: "#0095cd",
+            fill: false
+            }]
+        },
+      options: {
+        title: {
+          display: true,
+          text: 'Traffic per day'
+        },
+      scales: {
+        yAxes: [{
+            display: true,
+            ticks: {
+                suggestedMin: 0
+            }
+        }]}
+      }
+    });
+}
+for (var i = 0; i < 4; i++) {
+    console.log(dataset[i]);
+    drawG(listSites[i], dataset[i], i);
+}
 </script>
 
 </body>

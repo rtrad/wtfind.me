@@ -1,5 +1,5 @@
 /**
- * Created by nikhil on 4/22/2017.
+ * Created by nikhil on 10/14/2017.
  */
 var txtsignInUsername = document.getElementById('emailAddress');
 var txtregisterUsername = document.getElementById('emailAddress2');
