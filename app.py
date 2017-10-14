@@ -19,26 +19,32 @@ app.secret_key = APP_KEY
 
 @app.route('/')
 def index():
+    if 'logged_in' in session and session['logged_in']:
+        return redirect('/home')
     return render_template('index.html')
 
 @app.route('/home')
 def home():
     if 'logged_in' in session and session['logged_in']:
-        profile = get_user_resources(session['username'])
+    
+        profile = get_user_links(session['username'])
         return render_template('home.html', profile=profile, username=session['username'])
     else:
         return redirect('/')
     
-@app.route('/<username>/', methods = ['GET'])
-def get_user_landing(username):
+@app.route('/api/<username>', methods = ['GET'])
+def get_user(username):
     links = get_user_links(username)
     if links:
         return simplejson.dumps(links)
     else:
         return "user doesn't exist"
-        
+     
+@app.route('/<username>')
+def user_landing(username):
+    return render_template('user.html', profile=get_user_links(username))
 
-@app.route('/<username>/<resource>', methods = ['GET'])
+@app.route('/<username>/<resource>')
 def redirect_user_resource(username, resource):
     resources = get_user_resources(username)
     if resource in resources:
@@ -46,17 +52,17 @@ def redirect_user_resource(username, resource):
         referrer = request.referrer
         ts = Decimal(time.time())
         req = {'location' : location, 'referrer' : referrer, 'time' : ts}
-        print req
         add_request(username, resource, req)
         return redirect(resources[resource]['link'])
     else:
         return redirect('/{}'.format(username))
 
-@app.route('/profile', methods = ['GET'])
-def get_profile():
+@app.route('/profile', methods = ['POST'])
+def update_profile():
     if 'logged_in' in session and session['logged_in']:
-        resources = get_user_resources(session['username'])
-        
+        req = request.get_json()
+        for source, link in req.iteritems():
+            update_link(session['username'], source, link)
     else:
         return 'not logged in', 403
 
@@ -75,7 +81,30 @@ def register():
     
     password = sha256_crypt.encrypt(password)
     response = db.put_item(
-            Item = {'username' : username, 'password' : password, 'resources' : {}},
+            Item = {'username' : username, 'password' : password, 
+                    'resources' : {
+                        "facebook": {
+                          "link": " ",
+                          "requests": []
+                        },
+                        "github": {
+                          "link": " ",
+                          "requests": []
+                        },
+                        "linkedin": {
+                          "link": " ",
+                          "requests": []
+                        },
+                        "personal site": {
+                          "link": " ",
+                          "requests": []
+                        },
+                        "twitter": {
+                          "link": " ",
+                          "requests": []
+                        }
+                      }
+                },
             ConditionExpression = 'attribute_not_exists(username)'
         )
 
@@ -138,6 +167,15 @@ def add_request(username, resource, request):
             Key = {'username' : username},
             UpdateExpression = 'SET resources.{0}.requests = list_append(resources.{0}.requests, :i)'.format(resource),
             ExpressionAttributeValues = {':i' : [request]}
+        )
+        
+def update_link(username, source, link):
+    if link == '':
+        link = None;
+    db.update_item(
+            Key = {'username' : username},
+            UpdateExpression = 'SET resource.{0}.link = :i'.format(source),
+            ExpressionAttributeValues = {':i' : link}
         )
 
 if __name__ == '__main__':
