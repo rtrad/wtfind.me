@@ -31,3 +31,42 @@ body {
     overflow: auto;
     overflow-y: auto;
 }
+
+.fa {
+    padding: 20px;
+    font-size: 40px;
+    margin: 30px;
+    width: 75px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+    opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+.fa-link {
+    background: #fff;
+    color: black;
+}
+.fa-linkedin {
+    background: #0077b5;
+    color: white;
+}
+.fa-github {
+    background: #333;
+    color: white;
+}
+/* Twitter */
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}

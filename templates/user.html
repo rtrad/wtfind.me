@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ username }}</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/styleExtra.css">
+    <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:600'>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://use.fontawesome.com/7e2db0a51d.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand">Where To Find {{ name }}</a>
+    <div  id="navbarNavDropdown" class="navbar-collapse collapse"></div>
+
+</nav>
+<div align="center" style="margin-top: 300px">
+    <p>{{ name }}</p>
+    <p>{{ phone_number }}</p>
+    <p>{{ email }}</p>
+    <a href="/{{ username}}/facebook" class="fa fa-facebook"></a>
+    <a href="/{{ username}}/twitter" class="fa fa-twitter"></a>
+    <a href="/{{ username}}/linkedin" class="fa fa-linkedin"></a>
+    <a href="/{{ username}}/github" class="fa fa-github"></a>
+    <a href="/{{ username}}/personal_site" class="fa fa-link"></a>
+</div>
+</body>
+
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+</body>
+</html>

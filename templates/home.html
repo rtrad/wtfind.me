@@ -9,6 +9,8 @@
     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:600'>
     <link rel="stylesheet" href="../static/style.css">
 
+
+
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -80,34 +82,34 @@
             </div>
         </div>
     </div>
-<script>
-$('#editProfileSubmit').click(function () {
-    var dict = {};
-    if ($('#facebook').val() !== {{ profile['facebook'] }}) {
-        dict['facebook'] = $('#facebook').val();
-    }
-    if ($('#github').val() !== {{ profile['github'] }}) {
-        dict['github'] = $('#github').val();
-    }
-    if ($('#linkedin').val() !== {{ profile['linkedin'] }}) {
-        dict['linkedin'] = $('#linkedin').val();
-    }
-    if ($('#twitter').val() !== {{ profile['twitter'] }}) {
-        dict['twitter'] = $('#twitter').val();
-    }
-    if ($('#personal site').val() !== {{ profile['personal site'] }}) {
-        dict['personal site'] = $('#personal site').val();
-    }
-     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/profile", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(dict));
-})
-</script>
 <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script>
+    $('#editProfileSubmit').click(function () {
+        var dict = {};
+        if ($('#facebook').val() !== {{ profile['facebook'] }}) {
+            dict['facebook'] = $('#facebook').val();
+        }
+        if ($('#github').val() !== {{ profile['github'] }}) {
+            dict['github'] = $('#github').val();
+        }
+        if ($('#linkedin').val() !== {{ profile['linkedin'] }}) {
+            dict['linkedin'] = $('#linkedin').val();
+        }
+        if ($('#twitter').val() !== {{ profile['twitter'] }}) {
+            dict['twitter'] = $('#twitter').val();
+        }
+        if ($('#personal site').val() !== {{ profile['personal site'] }}) {
+            dict['personal site'] = $('#personal site').val();
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/profile", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(dict));
+    })
+</script>
 
 </body>
 </html>
