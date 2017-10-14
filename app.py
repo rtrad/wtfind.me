@@ -26,23 +26,16 @@ def index():
 @app.route('/home')
 def home():
     if 'logged_in' in session and session['logged_in']:
-    
         profile = get_user_links(session['username'])
         return render_template('home.html', profile=profile, username=session['username'])
     else:
         return redirect('/')
     
-@app.route('/api/<username>', methods = ['GET'])
-def get_user(username):
-    links = get_user_links(username)
-    if links:
-        return simplejson.dumps(links)
-    else:
-        return "user doesn't exist"
      
 @app.route('/<username>')
 def user_landing(username):
-    return render_template('user.html', profile=get_user_links(username))
+    user = get_user(username)
+    return render_template('user.html', profile=get_user_links(username), name=user['name'], phone=user['phone'], email=user['email'], username=username)
 
 @app.route('/<username>/<resource>')
 def redirect_user_resource(username, resource):
@@ -63,6 +56,7 @@ def update_profile():
         req = request.get_json()
         for source, link in req.iteritems():
             update_link(session['username'], source, link)
+        return '', 200
     else:
         return 'not logged in', 403
 
@@ -71,6 +65,9 @@ def register():
     req = request.get_json()
     username = req['username']
     password = req['password']
+    name = req['name']
+    email = req['email']
+    phone = req['phone']
 
     exists = db.query(
             KeyConditionExpression = Key('username').eq(username)
@@ -81,7 +78,7 @@ def register():
     
     password = sha256_crypt.encrypt(password)
     response = db.put_item(
-            Item = {'username' : username, 'password' : password, 
+            Item = {'username' : username, 'password' : password, 'name' : name, 'email' : email, 'phone' : phone,
                     'resources' : {
                         "facebook": {
                           "link": " ",
@@ -95,7 +92,7 @@ def register():
                           "link": " ",
                           "requests": []
                         },
-                        "personal site": {
+                        "personal_site": {
                           "link": " ",
                           "requests": []
                         },
@@ -136,6 +133,17 @@ def logout():
     session['logged_in'] = False
     return redirect('/home')
 
+    
+def get_user(username):
+    response = db.get_item(
+            Key = {'username' : username},
+            ProjectionExpression = 'resources, username, name, phone, email'
+        )
+    if 'Item' in response:
+        return response['Item']
+    else:
+        return None
+    
 def get_user_resources(username):
     response = db.get_item(
             Key = {'username' : username},
@@ -170,11 +178,11 @@ def add_request(username, resource, request):
         )
         
 def update_link(username, source, link):
-    if link == '':
+    if link.strip() == '':
         link = None;
     db.update_item(
             Key = {'username' : username},
-            UpdateExpression = 'SET resource.{0}.link = :i'.format(source),
+            UpdateExpression = 'SET resources.{0}.link = :i'.format(source),
             ExpressionAttributeValues = {':i' : link}
         )
 
