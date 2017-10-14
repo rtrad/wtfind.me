@@ -39,16 +39,17 @@ def user_landing(username):
 
 @app.route('/<username>/<resource>')
 def redirect_user_resource(username, resource):
-    resources = get_user_resources(username)
-    if resource in resources:
-        location = get_ip_info(request.remote_addr)
-        referrer = request.referrer
-        ts = Decimal(time.time())
-        req = {'location' : location, 'referrer' : referrer, 'time' : ts}
-        add_request(username, resource, req)
-        return redirect(resources[resource]['link'])
-    else:
-        return redirect('/{}'.format(username))
+    links = get_user_links(username)
+    if resource in links:
+        if len(links[resource].strip()) > 0:
+            location = get_ip_info(request.remote_addr)
+            referrer = request.referrer
+            ts = Decimal(time.time())
+            req = {'location' : location, 'referrer' : referrer, 'time' : ts}
+            add_request(username, resource, req)
+            return redirect(links[resource])
+    
+    return redirect('/{}'.format(username))
 
 @app.route('/profile', methods = ['POST'])
 def update_profile():
@@ -159,7 +160,7 @@ def get_user_links(username):
     if resources:
         links = {}
         for key, value in resources.iteritems():
-            links[key] = value['link']
+            links[key] = value['link'].strip()
         return links
     else:
         return None
@@ -179,7 +180,7 @@ def add_request(username, resource, request):
         
 def update_link(username, source, link):
     if link.strip() == '':
-        link = None;
+        link = " ";
     db.update_item(
             Key = {'username' : username},
             UpdateExpression = 'SET resources.{0}.link = :i'.format(source),

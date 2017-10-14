@@ -25,11 +25,22 @@
     <h1>{{ fname }}</h1>
     <p>{{ phone }}</p>
     <p><a href="mailto:{{ email }}" >{{ email }}</a></p>
-    <a href="/{{ username}}/facebook" class="fa fa-facebook"></a>
+
+    {% if profile.facebook|length > 0  %}
+        <a href="/{{ username}}/facebook" class="fa fa-facebook"></a>
+    {% endif %}
+    {% if profile.twitter|length > 0  %}
     <a href="/{{ username}}/twitter" class="fa fa-twitter"></a>
+    {% endif %}
+    {% if profile.linkedin|length > 0  %}
     <a href="/{{ username}}/linkedin" class="fa fa-linkedin"></a>
+    {% endif %}
+    {% if profile.github|length > 0  %}
     <a href="/{{ username}}/github" class="fa fa-github"></a>
+    {% endif %}
+    {% if profile.personal_site|length > 0  %}
     <a href="/{{ username}}/personal_site" class="fa fa-link"></a>
+    {% endif %}
 </div>
 </body>
 
