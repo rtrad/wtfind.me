@@ -39,6 +39,9 @@ $('#register').click(function(){
             username: username,
             password: pass
         });
+        xhr.onload = function () {
+            alert(xhr.response);
+        }
         console.log("Created you" + currentUser.username);
     } else {
         console.log("Passwords do not match!");
