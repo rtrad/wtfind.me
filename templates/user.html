@@ -24,8 +24,8 @@
 <div align="center" style="margin-top: 300px">
     <h1>{{ fname }}</h1>
     <p>{{ phone }}</p>
-    <p>{{ email }}</p>
-    
+    <p><a href="mailto:{{ email }}" >{{ email }}</a></p>
+
     {% if profile.facebook|length > 0  %}
         <a href="/{{ username}}/facebook" class="fa fa-facebook"></a>
     {% endif %}
