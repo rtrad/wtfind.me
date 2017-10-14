@@ -7,9 +7,9 @@ var txtsignInPassword = document.getElementById('password');
 var txtregisterPassword = document.getElementById('password2');
 var txtregisterPassword2 = document.getElementById('password3');
 var currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-var email = document.getElementById('email');
-var phone = document.getElementById('phone');
-var name = document.getElementById('fullName');
+var txtemail = document.getElementById('email7');
+var txtphone = document.getElementById('phone');
+var txtname = document.getElementById('fullName');
 
 function User(username, password, email, phone, name) {
     this.username = username;
@@ -37,10 +37,11 @@ $('#register').click(function(){
     if (verifyPass()) {
         var username = txtregisterUsername.value;
         var pass = txtregisterPassword.value;
-        var email = email.value;
-        var phone = phone.value;
-        var name = name.value;
+        var email = txtemail.value;
+        var phone = txtphone.value;
+        var name = txtname.value;
         currentUser = new User(username, pass, email, phone, name);
+        console.log(currentUser);
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/register", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
