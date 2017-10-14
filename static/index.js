@@ -10,7 +10,7 @@ var currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
 
 function User(username, password) {
     this.username = username;
-    this.pass = password;
+    this.password = password;
 }
 
 function verifyPass() {
@@ -35,13 +35,10 @@ $('#register').click(function(){
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/register", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send({
-            username: username,
-            password: pass
-        });
-        xhr.onload = function () {
-            alert(xhr.response);
-        }
+        xhr.send(currentUser);
+        // xhr.onload = function () {
+            // alert(xhr.response);
+        // }
         console.log("Created you" + currentUser.username);
     } else {
         console.log("Passwords do not match!");
@@ -54,10 +51,8 @@ $('#login').click(function(){
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/login", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send({
-        username: username,
-        password: pass
-    });
-    console.log("Logged you" + currentUser.username);
-     console.log("Passwords do not match!");
+    xhr.send(currentUser);
+    xhr.onload = function () {
+        alert(xhr.response);
+    }
 });

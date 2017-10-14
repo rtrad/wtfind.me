@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify, redirect, render_template, g
+from flask import Flask, request, redirect, render_template, g, session
 import requests
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from config import *
 import time
+import simplejson
 from decimal import Decimal
 from passlib.hash import sha256_crypt
 from auth import generate_token, authenticate
@@ -20,9 +21,21 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/home')
+def home():
+    if 'logged_in' in session and session['logged_in']:
+        profile = get_user_resources(session['username'])
+        return render_template('home.html', profile=profile)
+    else:
+        return redirect('/')
+    
 @app.route('/<username>/', methods = ['GET'])
 def get_user_landing(username):
-    return jsonify(get_user_resources(username))
+    user_resources = get_user_resources(username)
+    if user_resources:
+        return simplejson.dumps(user_resources)
+    else:
+        return "user doesn't exist"
         
 
 @app.route('/<username>/<resource>', methods = ['GET'])
@@ -42,7 +55,9 @@ def redirect_user_resource(username, resource):
 
 @app.route('/register', methods = ['POST'])
 def register():
+    print 'reg'
     req = request.get_json()
+    print req
     username = req['username']
     password = req['password']
 
@@ -59,12 +74,16 @@ def register():
             ConditionExpression = 'attribute_not_exists(username)'
         )
 
-    return jsonify({'token' : generate_token(username)}), 200
+    session['logged_in'] = True
+    session['username'] = username
+    return home()
 
 
 @app.route('/login', methods = ['POST'])
 def login():
+    print 'hi'
     req = request.get_json()
+    print req
     username = req['username']
     password = req['password']
 
@@ -73,17 +92,27 @@ def login():
         )['Item']['password']
 
     if sha256_crypt.verify(password, p):
-        return jsonify({'token' : generate_token(username)}), 200
+        session['logged_in'] = True
+        session['username'] = username
+        return home()
 
     else:
         return 'login failed', 422
+        
+@app.route('/logout')
+def logout():
+    session['logged_in'] = False
+    return index()
 
 def get_user_resources(username):
     response = db.get_item(
             Key = {'username' : username},
             ProjectionExpression = 'resources'
         )
-    return response['Item']['resources']
+    if 'Item' in response:
+        return response['Item']['resources']
+    else:
+        return None
 
 def get_ip_info(address):
     response = requests.get('http://ipinfo.io/{}/geo'.format(address))
