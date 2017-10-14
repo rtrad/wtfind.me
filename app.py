@@ -5,10 +5,14 @@ from config import *
 boto_session = boto3.Session(aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
 
 dynamodb = boto_session.resource('dynamodb', region_name='us-west-2')
-users = dynamodb.Table('wtfindme-users')
+users = dynamodb.Table('wtfindme')
 
 app = Flask(__name__)
 
+
+@app.route('/', methods = ['GET'])
+def index():
+    return '<html>test</html>'
 
 
 if __name__ == '__main__':
