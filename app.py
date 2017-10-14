@@ -27,7 +27,8 @@ def index():
 def home():
     if 'logged_in' in session and session['logged_in']:
         profile = get_user_links(session['username'])
-        return render_template('home.html', profile=profile, username=session['username'])
+        resources = get_user_resources(session['username'])
+        return render_template('home.html', profile=profile, username=session['username'], resources=resources)
     else:
         return redirect('/')
     
