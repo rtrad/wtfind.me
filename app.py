@@ -36,7 +36,10 @@ def home():
 @app.route('/<username>')
 def user_landing(username):
     user = get_user(username)
-    return render_template('user.html', profile=get_user_links(username), fname=user['fname'], phone=user['phone'], email=user['email'], username=username)
+    if user:
+        return render_template('user.html', profile=get_user_links(username), fname=user['fname'], phone=user['phone'], email=user['email'], username=username)
+    else:
+        return redirect('/')
 
 @app.route('/<username>/<resource>')
 def redirect_user_resource(username, resource):
@@ -99,6 +102,10 @@ def register():
                           "requests": []
                         },
                         "twitter": {
+                          "link": " ",
+                          "requests": []
+                        },
+                        "dice": {
                           "link": " ",
                           "requests": []
                         }

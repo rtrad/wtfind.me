@@ -1,8 +1,8 @@
 .fa {
     padding: 20px;
-    font-size: 40px;
     margin: 10px;
-    width: 75px;
+    width: 400px;
+    height: 100px;
     text-align: center;
     text-decoration: none;
 }
@@ -25,6 +25,10 @@
 }
 .fa-github {
     background: #333;
+    color: white;
+}
+.dice {
+    background: #cd2027;
     color: white;
 }
 /* Twitter */

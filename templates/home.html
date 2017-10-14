@@ -55,6 +55,10 @@
                         <input type="text" class="form-control" id="twitter" value="{{ profile['twitter'] }}"/>
                     </div>
                     <div class="form-group">
+                        <label for="lat3">Dice</label>
+                        <input type="text" class="form-control" id="dice" value="{{ profile['dice'] }}"/>
+                    </div>
+                    <div class="form-group">
                         <label for="lat3">Personal site</label>
                         <input type="text" class="form-control" id="personal_site" value="{{ profile['personal_site'] }}"/>
                     </div>
@@ -111,6 +115,9 @@ $('#editProfileSubmit').click(function () {
     }
     if ($('#twitter').val() !== "{{ profile['twitter'] }}" ) {
         dict['twitter'] = $('#twitter').val();
+    }
+    if ($('#dice').val() !== "{{ profile['dice'] }}" ) {
+        dict['dice'] = $('#dice').val();
     }
     if ($('#personal_site').val() !== "{{ profile['personal_site'] }}" ) {
         dict['personal_site'] = $('#personal_site').val();

@@ -13,18 +13,18 @@
 
 </head>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand">Where To Find {{ fname }}</a>
-    <div  id="navbarNavDropdown" class="navbar-collapse collapse"></div>
+<nav class="navbar navbar-toggleable-lg navbar-light bg-faded">
+    <div style="width:100%">
+        <h1>
+            <div align="center"><a class="navbar-text">Where To Find {{ fname }}?</a></div>
+            <span class="pull-left" style="padding-left: 30px"><a class="navbar-text" href="mailto:{{email}}">{{email}}</a></span>
+            <span class="pull-right" style="padding-right: 30px"><a class="navbar-text pull-right">{{phone}}</a></span>
+            </h1>
+            </div>
 
 </nav>
-<div align="center" style="margin-top: 300px">
-    <h1>{{ fname }}</h1>
-    <p>{{ phone }}</p>
-    <p><a href="mailto:{{ email }}" >{{ email }}</a></p>
+<div align="center" style="margin-top: 50px">
+    <div style="font-size:50px">
 
     {% if profile.facebook|length > 0  %}
         <a href="/{{ username}}/facebook" class="fa fa-facebook"></a>
@@ -38,9 +38,14 @@
     {% if profile.github|length > 0  %}
     <a href="/{{ username}}/github" class="fa fa-github"></a>
     {% endif %}
+    {% if profile.dice|length > 0  %}
+    <a href="/{{ username}}/dice" class="fa dice" style="font-family:arial"><i><strong>Dice</strong></i></a>
+    {% endif %}
     {% if profile.personal_site|length > 0  %}
     <a href="/{{ username}}/personal_site" class="fa fa-link"></a>
     {% endif %}
+    
+    </div>
 </div>
 </body>
 
