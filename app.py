@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import boto3
 from config import *
 
@@ -10,10 +10,9 @@ users = dynamodb.Table('wtfindme')
 app = Flask(__name__)
 
 
-@app.route('/', methods = ['GET'])
+@app.route('/')
 def index():
-    return '<html>test</html>'
-
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
