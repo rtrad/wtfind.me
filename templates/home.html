@@ -54,19 +54,56 @@
                 </div>
                 <div class="modal-body">
                     <form action="" id="theLinks">
-                        {% for key, value in profile.items() %}
                             <div class="form-group">
-                                <label for="lat3">{{ key }}</label>
-                                <input type="text" class="form-control" id="{{ key }}" value="{{ value }}"/>
+                                <label for="lat3">Github</label>
+                                <input type="text" class="form-control" id="github" value="{{ profile['github'] }}"/>
                             </div>
-                        {%endfor%}
+                            <div>
+                                <label for="lat3">Facebook</label>
+                                <input type="text" class="form-control" id="facebook" value="{{ profile['facebook'] }}"/>
+                            </div>
+                            <div>
+                                <label for="lat3">Linkedin</label>
+                                <input type="text" class="form-control" id="linkedin" value="{{ profile['linkedin'] }}"/>
+                            </div>
+                            <div>
+                                <label for="lat3">Twitter</label>
+                                <input type="text" class="form-control" id="twitter" value="{{ profile['twitter'] }}"/>
+                            </div>
+                            <div>
+                                <label for="lat3">Personal site</label>
+                                <input type="text" class="form-control" id="personal site" value="{{ profile['personal site'] }}"/>
+                            </div>
                             <input type="submit" id="editProfileSubmit" class="btn btn-default" value="Save Changes"/>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+<script>
+$('#editProfileSubmit').click(function () {
+    var dict = {};
+    if ($('#facebook').val() !== {{ profile['facebook'] }}) {
+        dict['facebook'] = $('#facebook').val();
+    }
+    if ($('#github').val() !== {{ profile['github'] }}) {
+        dict['github'] = $('#github').val();
+    }
+    if ($('#linkedin').val() !== {{ profile['linkedin'] }}) {
+        dict['linkedin'] = $('#linkedin').val();
+    }
+    if ($('#twitter').val() !== {{ profile['twitter'] }}) {
+        dict['twitter'] = $('#twitter').val();
+    }
+    if ($('#personal site').val() !== {{ profile['personal site'] }}) {
+        dict['personal site'] = $('#personal site').val();
+    }
+     var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/profile", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(dict));
+})
+</script>
 <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
