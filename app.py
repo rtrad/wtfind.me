@@ -35,7 +35,7 @@ def home():
 @app.route('/<username>')
 def user_landing(username):
     user = get_user(username)
-    return render_template('user.html', profile=get_user_links(username), name=user['name'], phone=user['phone'], email=user['email'], username=username)
+    return render_template('user.html', profile=get_user_links(username), fname=user['fname'], phone=user['phone'], email=user['email'], username=username)
 
 @app.route('/<username>/<resource>')
 def redirect_user_resource(username, resource):
@@ -78,7 +78,7 @@ def register():
     
     password = sha256_crypt.encrypt(password)
     response = db.put_item(
-            Item = {'username' : username, 'password' : password, 'name' : name, 'email' : email, 'phone' : phone,
+            Item = {'username' : username, 'password' : password, 'fname' : name, 'email' : email, 'phone' : phone,
                     'resources' : {
                         "facebook": {
                           "link": " ",
@@ -137,7 +137,7 @@ def logout():
 def get_user(username):
     response = db.get_item(
             Key = {'username' : username},
-            ProjectionExpression = 'resources, username, name, phone, email'
+            ProjectionExpression = 'resources, username, fname, phone, email'
         )
     if 'Item' in response:
         return response['Item']
