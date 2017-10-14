@@ -78,6 +78,13 @@
             </div>
         </div>
     </div>
+<script type="javascript">
+    $('#logout').click(function(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/logout', true);
+        xhr.send();
+    });
+</script>
 <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
