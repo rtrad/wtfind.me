@@ -35,10 +35,13 @@ $('#register').click(function(){
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/register", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(currentUser);
-        // xhr.onload = function () {
-            // alert(xhr.response);
-        // }
+        xhr.send(JSON.stringify(currentUser));
+        xhr.onload = function () {
+            if (xhr.status == 200)
+                window.location.href = '/home';
+            else 
+                alert('Registration failed:', xhr.response);
+        }
         console.log("Created you" + currentUser.username);
     } else {
         console.log("Passwords do not match!");
@@ -51,8 +54,11 @@ $('#login').click(function(){
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/login", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(currentUser);
+    xhr.send(JSON.stringify(currentUser));
     xhr.onload = function () {
-        alert(xhr.response);
+        if (xhr.status == 200)
+                window.location.href = '/home';
+        else 
+            alert('Login failed');
     }
 });

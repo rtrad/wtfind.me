@@ -7,7 +7,6 @@ import time
 import simplejson
 from decimal import Decimal
 from passlib.hash import sha256_crypt
-from auth import generate_token, authenticate
 
 boto_session = boto3.Session(aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
 
@@ -15,6 +14,7 @@ dynamodb = boto_session.resource('dynamodb', region_name='us-west-2')
 db = dynamodb.Table('wtfindme')
 
 app = Flask(__name__)
+app.secret_key = APP_KEY
 
 
 @app.route('/')
@@ -25,15 +25,15 @@ def index():
 def home():
     if 'logged_in' in session and session['logged_in']:
         profile = get_user_resources(session['username'])
-        return render_template('home.html', profile=profile)
+        return render_template('home.html', profile=profile, username=session['username'])
     else:
         return redirect('/')
     
 @app.route('/<username>/', methods = ['GET'])
 def get_user_landing(username):
-    user_resources = get_user_resources(username)
-    if user_resources:
-        return simplejson.dumps(user_resources)
+    links = get_user_links(username)
+    if links:
+        return simplejson.dumps(links)
     else:
         return "user doesn't exist"
         
@@ -52,12 +52,17 @@ def redirect_user_resource(username, resource):
     else:
         return redirect('/{}'.format(username))
 
+@app.route('/profile', methods = ['GET'])
+def get_profile():
+    if 'logged_in' in session and session['logged_in']:
+        resources = get_user_resources(session['username'])
+        
+    else:
+        return 'not logged in', 403
 
 @app.route('/register', methods = ['POST'])
 def register():
-    print 'reg'
     req = request.get_json()
-    print req
     username = req['username']
     password = req['password']
 
@@ -76,14 +81,12 @@ def register():
 
     session['logged_in'] = True
     session['username'] = username
-    return home()
+    return 'login success', 200
 
 
 @app.route('/login', methods = ['POST'])
 def login():
-    print 'hi'
     req = request.get_json()
-    print req
     username = req['username']
     password = req['password']
 
@@ -94,7 +97,7 @@ def login():
     if sha256_crypt.verify(password, p):
         session['logged_in'] = True
         session['username'] = username
-        return home()
+        return 'login success', 200
 
     else:
         return 'login failed', 422
@@ -102,7 +105,7 @@ def login():
 @app.route('/logout')
 def logout():
     session['logged_in'] = False
-    return index()
+    return redirect('/home')
 
 def get_user_resources(username):
     response = db.get_item(
@@ -114,6 +117,16 @@ def get_user_resources(username):
     else:
         return None
 
+def get_user_links(username):
+    resources = get_user_resources(username)
+    if resources:
+        links = {}
+        for key, value in resources.iteritems():
+            links[key] = value['link']
+        return links
+    else:
+        return None
+        
 def get_ip_info(address):
     response = requests.get('http://ipinfo.io/{}/geo'.format(address))
     response = response.json()
