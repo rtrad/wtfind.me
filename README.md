@@ -10,3 +10,6 @@ Create a config file and insert the following
 ACCESS_KEY = '<YOUR AWS ACCESS KEY>'
 SECRET_KEY = '<YOUR AWS SECRET KEY>'
 ```
+
+Run the application
+`python app.py`
